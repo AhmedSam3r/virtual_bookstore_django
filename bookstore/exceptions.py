@@ -30,6 +30,8 @@ def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
     if isinstance(exc, ValidationError):
         response.status_code = status.HTTP_400_BAD_REQUEST
+    if isinstance(exc, ValidationError):
+        response.status_code = status.HTTP_400_BAD_REQUEST
 
     if not response:
         data = {
@@ -39,8 +41,11 @@ def custom_exception_handler(exc, context):
         response = Response(data=data,
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
-        if exc.status_code == status.HTTP_429_TOO_MANY_REQUESTS:
+        if isinstance(exc, Exception):
+            pass  # to avoid errors
+        elif exc.status_code == status.HTTP_429_TOO_MANY_REQUESTS:
             response.data["detail"] = "Request Throttled"
+
         response.data["success"] = False
 
     return response

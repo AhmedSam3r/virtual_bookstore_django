@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    UserListAPI, UserRegisterView, UserLoginView,
+    UserRegisterView, UserLoginView,
 )
 from rest_framework_simplejwt.views import (
     TokenRefreshView, TokenVerifyView
@@ -12,8 +12,7 @@ urlpatterns = [
     path('auth/login/', UserLoginView().as_view(), name='auth_login'),
     path('auth/token/verify/', TokenVerifyView.as_view(),
          name='auth_token_verify'),
+    # TODO add verify email endpoint
     path('auth/token/refresh/', TokenRefreshView.as_view(),
          name='auth_token_refresh'),
-
-    path('list/', UserListAPI.as_view(), name='list-users'),
 ]

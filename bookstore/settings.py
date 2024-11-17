@@ -50,8 +50,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'users',
+    'import_export',
 
+    'users',
+    'booksvault',
 ]
 
 MIDDLEWARE = [
@@ -98,11 +100,11 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle',
     ],
     # 'DEFAULT_THROTTLE_RATES': {
-    #     # Allow only 10 requests per minute for anonymous users
+    #     # Allow only 10 requests per day for anonymous users
     #     'anon': '10/day',
-    # }
-
-
+    # },
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
 }
 
 
@@ -158,6 +160,10 @@ DATABASES = {
                 "timeout": 30,
             }
         },
+        'TEST': {
+            'NAME': 'test_bookstore_db',
+        }
+
     },
 }
 

@@ -53,5 +53,6 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+
     def __str__(self):
         return str(self.email)

@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import (
-    ListAPIView, CreateAPIView
+    CreateAPIView
 )
 from rest_framework.status import (
     HTTP_201_CREATED, HTTP_200_OK
@@ -23,13 +23,6 @@ from .serializers import (
 from .models import User
 from .helpers import format_response_data
 from bookstore.exceptions import APIExceptionErr
-
-
-class UserListAPI(ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    authentication_classes = [authentication.JWTAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
 
 
 class UserRegisterView(CreateAPIView):
