@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "29f0aacf-4793-4722-977d-f19ae613f281",
+		"name": "virtual_bookstore",
+		"description": "A collection that contains auth, users, books and reviews endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "15707236",
+		"_collection_link": "https://dark-flare-968788.postman.co/workspace/virtual_bookstore~418db189-7a39-48f2-aeb6-de77402bebc1/collection/15707236-29f0aacf-4793-4722-977d-f19ae613f281?action=share&source=collection_link&creator=15707236"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "register_user",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "http_x_forwared_for",
+								"value": "127.0.0.2",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "remote_addr",
+								"value": "127.0.0.2",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Host",
+								"value": "127.0.0.1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ahmed11@gmail.com\",\n    \"password\": \"123456_EE_EE\"\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/v1/users/auth/register/"
+					},
+					"response": []
+				},
+				{
+					"name": "login_user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"email\": \"ahmed@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/v1/users/auth/login/"
+					},
+					"response": []
+				},
+				{
+					"name": "refresh_user_token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMjAwMzg3NiwiaWF0IjoxNzMxNzQ0Njc2LCJqdGkiOiJlMzY4ZjFlNDE3NGY0ODJjOWZkNzI0ZDJiMjMzMzk5NyIsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20ifQ.MJNXW6-bKOOyNpy54b1HgrhvWj545QhctaFJvb1UXWM\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/v1/users/auth/token/refresh/"
+					},
+					"response": []
+				},
+				{
+					"name": "verify_token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMTg5NzQ3NiwiaWF0IjoxNzMxNjM4Mjc2LCJqdGkiOiI0ZjU4NDQwNDhiNWE0ZGRlODQ5ODFkNDU5NDkxMjE4YyIsImVtYWlsIjoiYWhtZWRfM0BnbWFpbC5jb20ifQ.0-9z9mPMrCRvbwhs6_0tL9usNN_G8PQ_kxfI0V76aBY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/v1/users/auth/token/verify/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "books_app",
+			"item": [
+				{
+					"name": "get_list_books",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "http_x_forwared_for",
+								"value": "127.0.0.2",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "remote_addr",
+								"value": "127.0.0.2",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Host",
+								"value": "127.0.0.1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxODU1NzU1LCJpYXQiOjE3MzE3NjkzNTUsImp0aSI6IjU1NGE1MmI1MmM1NDRlYzliY2M5MGU3MWJlNTc4MWMxIiwiZW1haWwiOiJhaG1lZEBnbWFpbC5jb20ifQ.bEgjEjXRKhFtP5BTxKd-07j8DSVHwf19j3KSRBH3Yrg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/v1/books/list/"
+					},
+					"response": [
+						{
+							"name": "get_list_books",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "http_x_forwared_for",
+										"value": "127.0.0.2",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "remote_addr",
+										"value": "127.0.0.2",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Host",
+										"value": "127.0.0.1",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxODU1NzU1LCJpYXQiOjE3MzE3NjkzNTUsImp0aSI6IjU1NGE1MmI1MmM1NDRlYzliY2M5MGU3MWJlNTc4MWMxIiwiZW1haWwiOiJhaG1lZEBnbWFpbC5jb20ifQ.bEgjEjXRKhFtP5BTxKd-07j8DSVHwf19j3KSRBH3Yrg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseURL}}/v1/books/list/"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "get_book_details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "http_x_forwared_for",
+								"value": "127.0.0.2",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "remote_addr",
+								"value": "127.0.0.2",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Host",
+								"value": "127.0.0.1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxODU1NzU1LCJpYXQiOjE3MzE3NjkzNTUsImp0aSI6IjU1NGE1MmI1MmM1NDRlYzliY2M5MGU3MWJlNTc4MWMxIiwiZW1haWwiOiJhaG1lZEBnbWFpbC5jb20ifQ.bEgjEjXRKhFtP5BTxKd-07j8DSVHwf19j3KSRBH3Yrg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/v1/books/1/details/"
+					},
+					"response": []
+				}
+			],
+			"description": "it contains booksvault endpoints"
+		},
+		{
+			"name": "reviews_app",
+			"item": [
+				{
+					"name": "get_list_reviews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxODU1NzU1LCJpYXQiOjE3MzE3NjkzNTUsImp0aSI6IjU1NGE1MmI1MmM1NDRlYzliY2M5MGU3MWJlNTc4MWMxIiwiZW1haWwiOiJhaG1lZEBnbWFpbC5jb20ifQ.bEgjEjXRKhFtP5BTxKd-07j8DSVHwf19j3KSRBH3Yrg",
+								"type": "text"
+							}
+						],
+						"url": "{{baseURL}}/v1/reviews/book/1/"
+					},
+					"response": []
+				},
+				{
+					"name": "create_submit_review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxODU1NzU1LCJpYXQiOjE3MzE3NjkzNTUsImp0aSI6IjU1NGE1MmI1MmM1NDRlYzliY2M5MGU3MWJlNTc4MWMxIiwiZW1haWwiOiJhaG1lZEBnbWFpbC5jb20ifQ.bEgjEjXRKhFtP5BTxKd-07j8DSVHwf19j3KSRBH3Yrg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"book\": 10,\n    \"description\": \"my review for this product is\",\n    \"rating\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/v1/reviews/submit/"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
