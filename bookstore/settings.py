@@ -34,7 +34,7 @@ DEBUG = env.bool('DEBUG', default=True)
 
 # TODO update allowed hosts
 # See https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 
 # Application definition
@@ -100,10 +100,10 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
     ],
-    # 'DEFAULT_THROTTLE_RATES': {
-    #     # Allow only 10 requests per day for anonymous users
-    #     'anon': '10/day',
-    # },
+    'DEFAULT_THROTTLE_RATES': {
+        # Allow only 10 requests per day for anonymous users per IP
+        'anon': '10/day',
+    },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }
@@ -152,18 +152,19 @@ DATABASES = {
         'USER': env("DB_USER"),
         'PASSWORD': env("DB_PASSWORD"),
         'HOST': env("DB_HOST"),
-        'PORT': env.int("DB_PORT"),
-        "OPTIONS": {
-            # TODO read from env
-            "pool": {
-                "min_size": 2,
-                "max_size": 4,
-                "timeout": 30,
-            }
-        },
-        'TEST': {
-            'NAME': 'test_bookstore_db',
-        }
+        'PORT': env("DB_PORT"),
+        # TODO fix it with docker
+        # "OPTIONS": {
+        #     # TODO read from env
+        #     "pool": {
+        #         "min_size": 2,
+        #         "max_size": 4,
+        #         "timeout": 30,
+        #     }
+        # },
+        # 'TEST': {
+        #     'NAME': 'test_bookstore_db',
+        # }
 
     },
 }

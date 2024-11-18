@@ -3,9 +3,7 @@ from rest_framework.response import Response
 from rest_framework.generics import (
     CreateAPIView
 )
-from rest_framework.status import (
-    HTTP_201_CREATED, HTTP_200_OK
-)
+from rest_framework import status
 from rest_framework_simplejwt import authentication
 from rest_framework import permissions
 
@@ -74,7 +72,7 @@ class UserRegisterView(CreateAPIView):
             raise APIExceptionErr(e.detail, e.status_code)
 
         return Response(data=response_data,
-                        status=HTTP_201_CREATED)
+                        status=status.HTTP_201_CREATED)
 
 
 class UserLoginView(CreateAPIView):
@@ -95,4 +93,4 @@ class UserLoginView(CreateAPIView):
             raise APIExceptionErr(e.detail, e.status_code)
 
         return Response(data=response_data,
-                        status=HTTP_200_OK)
+                        status=status.HTTP_200_OK)

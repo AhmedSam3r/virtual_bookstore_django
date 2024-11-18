@@ -53,6 +53,9 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    @property
+    def num_of_reviews(self):
+        return self.user_reviews.count()
 
     def __str__(self):
         return str(self.email)
