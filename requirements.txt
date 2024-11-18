@@ -9,3 +9,5 @@ pytest==8.3.3
 pytest-django==4.9.0
 faker==33.0.0
 django-import-export==4.2.1
+# work on reviews tests
+bleach==6.2.0
