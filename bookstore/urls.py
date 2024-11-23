@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path('v1/health-check/', include('health_check.urls')),
+
     path('admin/', admin.site.urls),
     path('v1/users/', include('users.urls')),
     path('v1/books/', include('booksvault.urls')),

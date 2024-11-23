@@ -51,6 +51,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'import_export',
+    'health_check',  # See https://github.com/revsys/django-health-check
+    'health_check.db',
+    'health_check.contrib.psutil',
+    'health_check.contrib.redis',
 
     'users',
     'booksvault',
@@ -141,6 +145,12 @@ AUTH_USER_MODEL = 'users.User'
 
 WSGI_APPLICATION = 'bookstore.wsgi.application'
 
+HEALTHCHECK_CACHE_KEY = "test_key"
+HEALTH_CHECK = {
+    'DISK_USAGE_MAX': 90,  # percent
+    'MEMORY_MIN': 100,    # in MB
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -153,26 +163,25 @@ DATABASES = {
         'PASSWORD': env("DB_PASSWORD"),
         'HOST': env("DB_HOST"),
         'PORT': env("DB_PORT"),
-        # TODO fix it with docker
-        # "OPTIONS": {
-        #     # TODO read from env
-        #     "pool": {
-        #         "min_size": 2,
-        #         "max_size": 4,
-        #         "timeout": 30,
-        #     }
-        # },
-        # 'TEST': {
-        #     'NAME': 'test_bookstore_db',
-        # }
+        "OPTIONS": {
+            "pool": {
+                "min_size": 2,
+                "max_size": 4,
+                "timeout": 30,
+            }
+        },
+        'TEST': {
+            'NAME': 'bookstore_service_test',
+        }
 
     },
 }
 
+REDIS_URL = env("REDIS_URI")   # Naming for health check
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": env("REDIS_URI"),
+        "LOCATION": REDIS_URL,
         "OPTIONS": {
             "db": "0",
             "pool_class": "redis.BlockingConnectionPool",
