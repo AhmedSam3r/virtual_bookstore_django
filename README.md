@@ -1,6 +1,17 @@
-# Project Title
+# Virtual Bookstore
 
-A minimal Django-based project with a RESTful API for book management and user interactions, including user authentication, book listing, book details, submitting reviews, and listing reviews for a particular book.
+A minimal Django & Django REST framework project with RESTful APIs for book management and user interactions, including user authentication, book listing, book details, submitting reviews, and listing reviews for a particular book.
+
+
+## Pre-requisites
+- Django
+- Django REST Framework
+- Django REST Framework SimpleJWT
+- Python 
+- PostgreSQL
+- Redis
+- Docker
+- Docker Compose
 
 ## Features
 - Health Check for database, redis and host settings such as RAM & disk
@@ -190,7 +201,7 @@ Ensure you have test cases in `tests/` directories within your app folders (e.g.
 - [ ] **Resolve testing issues**: resolve db issue where the created tested data don't have the expected id. in other words make sure the **test** DB is isolated from the **local** DB such as `test_submit_review_success`
 
 
-6. **Examples**
+## **Examples**
    
 - ![pre-login-admin](<examples/Screenshot from 2024-11-23 14-56-01.png>)
 - ![post-login-admin](<examples/Screenshot from 2024-11-23 14-56-50.png>)
