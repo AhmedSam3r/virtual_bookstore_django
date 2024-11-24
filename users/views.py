@@ -1,26 +1,31 @@
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import (
-    CreateAPIView
+    CreateAPIView, GenericAPIView
 )
 from rest_framework import status
-from rest_framework_simplejwt import authentication
 from rest_framework import permissions
-
 from rest_framework_simplejwt.tokens import (
      RefreshToken,  # AccessToken,
 )
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework.throttling import AnonRateThrottle
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
-from .serializers import (
-    UserSerializer, CustomTokenObtainPairSerializer
+from rest_framework_simplejwt.views import (
+    TokenRefreshView, TokenVerifyView
 )
 
 
+from .serializers import (
+    UserSerializer, CustomTokenObtainPairSerializer
+)
 from .models import User
 from .helpers import format_response_data
+from .permissions import IsVerifiedUser
 from bookstore.exceptions import APIExceptionErr
+from users.throttling import (
+    TokenRefreshThrottle, LoginThrottle
+)
 
 
 class UserRegisterView(CreateAPIView):
@@ -54,7 +59,8 @@ class UserRegisterView(CreateAPIView):
                 "verified": user.verified
             },
             "access": str(access_token),
-            "refresh": str(refresh_token)
+            # Grant the user refresh in case of verification
+            # "refresh": str(refresh_token)
         }
         return format_response_data(result)
 
@@ -75,10 +81,11 @@ class UserRegisterView(CreateAPIView):
                         status=status.HTTP_201_CREATED)
 
 
-class UserLoginView(CreateAPIView):
+class UserLoginView(GenericAPIView):
     serializer_class = CustomTokenObtainPairSerializer
     authentication_classes = []
     permission_classes = [permissions.AllowAny]
+    throttle_classes = [LoginThrottle]
     queryset = User.objects.filter(verified=True)
 
     def post(self, request, *args, **kwargs):
@@ -94,3 +101,20 @@ class UserLoginView(CreateAPIView):
 
         return Response(data=response_data,
                         status=status.HTTP_200_OK)
+
+
+class CustomTokenRefreshView(TokenRefreshView):
+    permission_classes = []
+    throttle_classes = [AnonRateThrottle, TokenRefreshThrottle]
+
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
+
+class CustomTokenVerifyView(TokenVerifyView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated, IsVerifiedUser]
+
+    def post(self, request, *args, **kwargs):
+        print("FIRST HERE")
+        return super().post(request, *args, **kwargs)

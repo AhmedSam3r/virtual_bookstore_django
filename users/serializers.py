@@ -47,6 +47,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
+        # assign self.user through authenticate() using email and pw
+        # returns access & refresh token
         data = super().validate(attrs)
         if not self.user:
             raise exceptions.AuthenticationFailed(
@@ -55,6 +57,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         if self.user.verified is False:
             raise exceptions.PermissionDenied('Verify your account first',
                                               status.HTTP_403_FORBIDDEN)
+        if self.user.blocked is True:
+            raise exceptions.PermissionDenied('your account has been blocked',
+                                              status.HTTP_403_FORBIDDEN)
+
         data['user'] = {
             'email': self.user.email,
             'verified': self.user.verified,

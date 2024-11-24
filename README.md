@@ -191,11 +191,11 @@ Ensure you have test cases in `tests/` directories within your app folders (e.g.
 ## Future Enhancements
 
 - [x] **Add `docker-compose` file:** We plan to add a `docker-compose.yml` file to streamline the development environment setup.
+- [x] **Ensure that the authentication cycle is fully developed**
 - [ ] **Implement BookReader model** to keep track of users readings & related code/modules for it
 - [ ] **Update `docker-compose` file:** Dockerize Django with Gunicorn, and Nginx
 - [ ] **Update `Dockerfile` file:** update the user & permissions
 - [ ] **Implement email verification:** We will add an endpoint to verify user email addresses, enhancing security and user trust.
-- [ ] **Ensure that the authentication cycle is fully developed**
 - [ ] **Add Proper Logging middleware** Add request/response proper logging in the app
 - [ ] **Add Proper Throttling**
 - [ ] **Resolve testing issues**: resolve db issue where the created tested data don't have the expected id. in other words make sure the **test** DB is isolated from the **local** DB such as `test_submit_review_success`

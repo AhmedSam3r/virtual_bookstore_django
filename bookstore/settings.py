@@ -103,10 +103,14 @@ REST_FRAMEWORK = {
 
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
+        'users.throttling.TokenRefreshThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
         # Allow only 10 requests per day for anonymous users per IP
-        'anon': '10/day',
+        'anon': env("ANON_RATE", default='10/day'),
+        'auth_token_refresh': env("AUTH_TOKEN_REFRESH_RATE", default='2/day'),
+        'auth_login': env("AUTH_LOGIN_RATE", default='3/hour'),
+
     },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10

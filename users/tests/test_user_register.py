@@ -22,7 +22,6 @@ class TestUserRegister:
         # Check if the response status code is HTTP 201 Created
         assert response.status_code == status.HTTP_201_CREATED
         assert 'access' in response.data
-        assert 'refresh' in response.data
         assert response.data['success'] is True
         assert 'user' in response.data
         assert response.data['user']['email'] == self.user_email

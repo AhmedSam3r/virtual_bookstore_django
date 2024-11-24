@@ -1,8 +1,6 @@
 from rest_framework.generics import (
     ListAPIView, CreateAPIView,
 )
-
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -14,12 +12,12 @@ from .serializers import (
 )
 from .models import Review
 from booksvault.models import Book
+from users.permissions import IsVerifiedUser
 
 
 class ReviewListView(ListAPIView):
     serializer_class = ReviewSerializer
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerifiedUser]
     pagination_class = PageNumberPagination
     lookup_field = 'book_id'
 
@@ -47,8 +45,7 @@ class ReviewListView(ListAPIView):
 class ReviewSubmitView(CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewCreateSerializer
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsVerifiedUser]
     pagination_class = PageNumberPagination
 
     # def perform_create(self, serializer):

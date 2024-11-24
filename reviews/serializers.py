@@ -39,10 +39,6 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
-        if not user.verified:
-            raise APIExceptionErr('verify your account first',
-                                  status_code=status.HTTP_403_FORBIDDEN)
-
         validated_data['user'] = user
         return super().create(validated_data)
 

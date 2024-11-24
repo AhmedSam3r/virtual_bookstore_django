@@ -17,14 +17,17 @@ services:
       bookstore_network:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER"]
-      interval: 10s
+      interval: 5m1s
       timeout: 5s
       retries: 5
 
   db_migrations:
     build:
       context: .
-    command: python manage.py migrate
+    command: bash -c "
+      python manage.py makemigrations
+      && python manage.py migrate"
+
     env_file:
       - ./.env.dev
     networks:
@@ -41,6 +44,13 @@ services:
       - bookstore_network
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 3
+      start_period: 5s
+    
 
   backend:
     build: 
@@ -55,12 +65,15 @@ services:
     volumes:
       - .:/app  # Mount code for live development
     depends_on:
-      - db
-      - db_migrations
-      - redis_db
+      db:
+        condition: service_healthy
+      db_migrations:
+        condition: service_completed_successfully
+      redis_db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8000/v1/health-check/ || exit 1"]
-      interval: 30s
+      interval: 5m10s
       timeout: 10s
       retries: 3
 
